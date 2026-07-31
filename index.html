@@ -1,11 +1,28 @@
+Here's my take: **Podemos resolver ambos puntos con una integración ligera de JS y un modal (lightbox).**
+
+Para lograr exactamente lo que pides, ajustaremos dos aspectos clave:
+
+1. **Minimizar la interfaz de YouTube:** Usaremos parámetros de inserción para eliminar recomendaciones finales (`rel=0`), simplificar la barra (`modestbranding=1`) y ocultar los controles del reproductor (`controls=0`) para mostrar solo el botón de inicio de reproducción.
+2. **Reproducción en pantalla ampliada (Lightbox Modal):** En lugar de cargar los `iframe` de los trabajos en cards pequeñas, mostraremos imágenes miniatura estáticas estilizadas (*thumbnails*) con un botón flotante de Play. Al hacer clic en cualquier tarjeta, **se abrirá una ventana emergente (modal/lightbox)** donde el video se reproduce a pantalla casi completa (16:9 amplio), permitiendo al cliente apreciar los detalles y el estilo de edición.
+
+---
+
+### Código HTML/CSS/JS Actualizado
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>José Miguel Ramírez | Video Post-Production & Motion Studio</title>
-    <!-- Google Fonts & FontAwesome Icons -->
+
+    <!-- OPTIMIZACIÓN DE CARGA DE FUENTES (Elimina FOUT / Parpadeo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -27,7 +44,6 @@
 
         body {
             background-color: var(--bg-dark);
-            /* Subtle Urban Texture: Fine Grain / Concrete Grid Pattern */
             background-image: 
                 radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
@@ -35,7 +51,7 @@
             background-position: 0 0, 6px 6px;
             background-attachment: fixed;
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.5;
         }
 
@@ -43,21 +59,21 @@
 
         /* Typography Styles */
         h1, h2, h3, .bebas-bold {
-            font-family: 'Bebas Neue', cursive;
+            font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
             font-weight: 400;
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .bebas-light {
-            font-family: 'Bebas Neue', cursive;
+            font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0.85;
         }
 
-        /* Navigation / Header Agency Style */
+        /* Navigation Header */
         nav {
             display: flex;
             justify-content: space-between;
@@ -80,7 +96,6 @@
             color: var(--accent-red);
         }
 
-        /* Header Social & Email Links */
         .header-actions {
             display: flex;
             align-items: center;
@@ -121,7 +136,6 @@
             transform: translateY(-2px);
         }
 
-        /* Copy Email Tooltip Effect */
         .copy-email-btn {
             position: relative;
         }
@@ -157,7 +171,7 @@
             color: #ffffff;
             padding: 8px 18px;
             border-radius: 4px;
-            font-family: 'Bebas Neue', cursive;
+            font-family: 'Bebas Neue', Impact, sans-serif;
             font-size: 1.1rem;
             letter-spacing: 1px;
             transition: 0.3s ease;
@@ -171,7 +185,7 @@
             box-shadow: 0 0 15px rgba(224, 83, 69, 0.3);
         }
 
-        /* Hero / Reel Spotlight */
+        /* Hero Spotlight */
         .hero-studio {
             text-align: center;
             padding: 70px 20px 30px;
@@ -233,7 +247,6 @@
             line-height: 1;
         }
 
-        /* Portfolio Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -248,6 +261,7 @@
             transition: transform 0.3s ease, border-color 0.3s ease;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .work-card:hover {
@@ -255,6 +269,7 @@
             border-color: var(--accent-red);
         }
 
+        /* Thumbnail Container with Play Overlay */
         .card-media {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -262,10 +277,41 @@
             overflow: hidden;
         }
 
-        .card-media iframe {
+        .card-media img {
             width: 100%;
             height: 100%;
-            border: 0;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .work-card:hover .card-media img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .play-btn-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 55px;
+            height: 55px;
+            background: rgba(224, 83, 69, 0.9);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .work-card:hover .play-btn-overlay {
+            background: var(--accent-hover);
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 0 25px rgba(224, 83, 69, 0.6);
         }
 
         .card-info {
@@ -311,7 +357,61 @@
             color: var(--accent-red);
         }
 
-        /* Tech Stack / Capabilities */
+        /* Video Lightbox Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            border: 1px solid var(--border);
+        }
+
+        .modal-content iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-red);
+        }
+
+        /* Tech Stack */
         .capabilities {
             background: rgba(13, 13, 16, 0.8);
             border-top: 1px solid var(--border);
@@ -334,10 +434,7 @@
             line-height: 1;
         }
 
-        .cap-box ul {
-            list-style: none;
-        }
-
+        .cap-box ul { list-style: none; }
         .cap-box li {
             color: var(--text-muted);
             margin-bottom: 8px;
@@ -352,7 +449,6 @@
             font-size: 0.75rem;
         }
 
-        /* Minimal Footer */
         footer {
             max-width: 1200px;
             margin: 0 auto;
@@ -363,39 +459,28 @@
             border-top: 1px solid var(--border);
         }
 
-        .footer-left h3 {
-            font-size: 1.6rem;
-            line-height: 1;
-        }
-
-        .footer-left p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 4px;
-        }
+        .footer-left h3 { font-size: 1.6rem; line-height: 1; }
+        .footer-left p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
     </style>
 </head>
 <body>
 
-    <!-- Header with Integrated Social & Email Copy Button -->
+    <!-- Header Navigation -->
     <nav>
         <div class="logo bebas-bold">José Miguel Ramírez <span>/ Studio</span></div>
         
         <div class="header-actions">
             <div class="header-social">
-                <!-- LINKEDIN LINK -->
                 <a href="PLACEHOLDER_LINK_LINKEDIN" target="_blank" class="social-icon" title="LinkedIn">
                     <i class="fa-brands fa-linkedin-in"></i>
                 </a>
 
-                <!-- UPWORK SVG ICON -->
                 <a href="PLACEHOLDER_LINK_UPWORK" target="_blank" class="social-icon" title="Upwork">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <path d="M493.9 359.6C443.6 359.6 410.4 320.7 401.1 305.7C413 210.4 447.9 180.3 493.9 180.3C539.4 180.3 574.8 216.7 574.8 270C574.8 323.3 539.4 359.7 493.9 359.7L493.9 359.6zM493.9 121.8C412 121.8 366.1 175.2 352.9 230.2C338 202.2 327 164.7 318.4 129.9L205.2 129.9L205.2 270.9C205.2 322 181.9 359.9 136.4 359.9C90.9 359.9 64.8 322.1 64.8 270.9L65.3 129.9L0 129.9L0 270.9C0 312 13.3 349.3 37.6 376C62.6 403.5 96.8 417.8 136.4 417.8C215.2 417.8 270.2 357.4 270.2 270.9L270.2 176.1C278.4 207.3 298 267.2 335.5 319.7L300.5 519.1L366.9 519.1L390 377.8C397.6 384.1 405.7 389.8 414.2 394.8C436.4 408.8 461.9 416.7 488.1 417.6C488.1 417.6 492.1 417.8 494.2 417.8C575.4 417.8 640.1 354.9 640.1 270C640.1 185.1 575.3 121.9 494.1 121.9L493.9 121.8z"/>
                     </svg>
                 </a>
 
-                <!-- COPY EMAIL BUTTON -->
                 <button class="social-icon copy-email-btn" id="copyEmailBtn" data-tooltip="Copy email" onclick="copyEmailToClipboard()">
                     <i class="fa-solid fa-envelope"></i>
                 </button>
@@ -411,9 +496,9 @@
         <p class="hero-tagline bebas-light">15+ years of audiovisual post-production experience for global brands, agencies, and top creators.</p>
     </section>
 
-    <!-- Featured Showreel Spotlight -->
+    <!-- Featured Showreel Spotlight (Direct Embedding Clean Controls) -->
     <div class="showreel-frame">
-        <iframe src="https://www.youtube.com/embed/VqjPPrVSMwM?rel=0&modestbranding=1" title="Official Showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/VqjPPrVSMwM?rel=0&modestbranding=1&controls=0" title="Official Showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
     <!-- Portfolio Grid Showcase -->
@@ -425,9 +510,10 @@
         <div class="grid">
 
             <!-- WORK ITEM 1: Outperform -->
-            <div class="work-card">
+            <div class="work-card" onclick="openVideoModal('serhzcffzx0')">
                 <div class="card-media">
-                    <iframe src="https://www.youtube.com/embed/serhzcffzx0?rel=0&modestbranding=1" title="Outperform YouTube Channel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <img src="https://img.youtube.com/vi/serhzcffzx0/hqdefault.jpg" alt="Outperform YouTube Channel">
+                    <div class="play-btn-overlay"><i class="fa-solid fa-play"></i></div>
                 </div>
                 <div class="card-info">
                     <div>
@@ -440,9 +526,10 @@
             </div>
 
             <!-- WORK ITEM 2: Bashcast -->
-            <div class="work-card">
+            <div class="work-card" onclick="openVideoModal('tj3ADI19_CI')">
                 <div class="card-media">
-                    <iframe src="https://www.youtube.com/embed/tj3ADI19_CI?rel=0&modestbranding=1" title="Bashcast Startup Explainer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <img src="https://img.youtube.com/vi/tj3ADI19_CI/hqdefault.jpg" alt="Bashcast Startup Explainer">
+                    <div class="play-btn-overlay"><i class="fa-solid fa-play"></i></div>
                 </div>
                 <div class="card-info">
                     <div>
@@ -455,9 +542,10 @@
             </div>
 
             <!-- WORK ITEM 3: Ad Creative Media -->
-            <div class="work-card">
+            <div class="work-card" onclick="openVideoModal('YobgkEydis8')">
                 <div class="card-media">
-                    <iframe src="https://www.youtube.com/embed/YobgkEydis8?rel=0&modestbranding=1" title="Ad Creative Media Campaigns" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <img src="https://img.youtube.com/vi/YobgkEydis8/hqdefault.jpg" alt="Ad Creative Media Campaigns">
+                    <div class="play-btn-overlay"><i class="fa-solid fa-play"></i></div>
                 </div>
                 <div class="card-info">
                     <div>
@@ -470,9 +558,10 @@
             </div>
 
             <!-- WORK ITEM 4: Azura -->
-            <div class="work-card">
+            <div class="work-card" onclick="openVideoModal('qQ9eKWfYpYQ')">
                 <div class="card-media">
-                    <iframe src="https://www.youtube.com/embed/qQ9eKWfYpYQ?rel=0&modestbranding=1" title="Azura Engineering Course & Media" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <img src="https://img.youtube.com/vi/qQ9eKWfYpYQ/hqdefault.jpg" alt="Azura Engineering Course & Media">
+                    <div class="play-btn-overlay"><i class="fa-solid fa-play"></i></div>
                 </div>
                 <div class="card-info">
                     <div>
@@ -487,7 +576,7 @@
         </div>
     </section>
 
-    <!-- Post-Production Capabilities & Stack -->
+    <!-- Capabilities -->
     <section class="capabilities">
         <div class="cap-inner">
             <div class="cap-box">
@@ -526,15 +615,43 @@
         </div>
     </footer>
 
-    <!-- Copy Email Script -->
+    <!-- Video Modal Screen -->
+    <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+        <div class="modal-content">
+            <span class="modal-close" onclick="forceCloseModal()">&times;</span>
+            <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
+        function openVideoModal(youtubeId) {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('modalIframe');
+            /* Parámetros limpios + Autoplay al abrir + ocultar interfaz extra */
+            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&controls=1`;
+            modal.classList.add('active');
+        }
+
+        function closeVideoModal(event) {
+            if (event.target.id === 'videoModal') {
+                forceCloseModal();
+            }
+        }
+
+        function forceCloseModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('modalIframe');
+            modal.classList.remove('active');
+            iframe.src = ""; // Detener reproducción inmediatamente
+        }
+
         function copyEmailToClipboard() {
             const email = "jmramirezeditor@gmail.com";
             const btn = document.getElementById('copyEmailBtn');
 
             navigator.clipboard.writeText(email).then(() => {
                 btn.setAttribute('data-tooltip', 'Email copied!');
-                
                 setTimeout(() => {
                     btn.setAttribute('data-tooltip', 'Copy email');
                 }, 2000);
@@ -546,3 +663,5 @@
 
 </body>
 </html>
+
+```
