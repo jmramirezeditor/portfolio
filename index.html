@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>José Miguel Ramírez | Video Post-Production & Motion Studio</title>
 
+    <!-- PREVIENE LA INDEXACIÓN EN GOOGLE Y OTROS BUSCADORES -->
+    <meta name="robots" content="noindex, nofollow">
+
     <!-- OPTIMIZACIÓN DE CARGA DE FUENTES (Elimina FOUT / Parpadeo) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,6 +168,7 @@
             transition: 0.3s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
 
@@ -257,7 +261,6 @@
             border-color: var(--accent-red);
         }
 
-        /* Thumbnail Container with Play Overlay */
         .card-media {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -399,7 +402,7 @@
             color: var(--accent-red);
         }
 
-        /* Tech Stack */
+        /* Capabilities */
         .capabilities {
             background: rgba(13, 13, 16, 0.8);
             border-top: 1px solid var(--border);
@@ -449,6 +452,30 @@
 
         .footer-left h3 { font-size: 1.6rem; line-height: 1; }
         .footer-left p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+
+        /* AJUSTES RESPONSIVOS PARA MÓVIL */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 4%;
+            }
+
+            .header-actions {
+                flex-direction: column-reverse; /* Coloca el botón arriba y las redes abajo */
+                align-items: flex-end;
+                gap: 8px;
+            }
+
+            .header-social {
+                justify-content: flex-end;
+                width: 100%;
+            }
+
+            .nav-btn {
+                width: 100%;
+                padding: 6px 12px;
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -458,6 +485,7 @@
         <div class="logo bebas-bold">José Miguel Ramírez <span>/ Studio</span></div>
         
         <div class="header-actions">
+            <!-- Redes sociales alineadas debajo en móvil -->
             <div class="header-social">
                 <a href="PLACEHOLDER_LINK_LINKEDIN" target="_blank" class="social-icon" title="LinkedIn">
                     <i class="fa-brands fa-linkedin-in"></i>
@@ -474,6 +502,7 @@
                 </button>
             </div>
 
+            <!-- Botón principal arriba en móvil -->
             <a href="mailto:jmramirezeditor@gmail.com" class="nav-btn"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
         </div>
     </nav>
@@ -484,7 +513,7 @@
         <p class="hero-tagline bebas-light">15+ years of audiovisual post-production experience for global brands, agencies, and top creators.</p>
     </section>
 
-    <!-- Featured Showreel Spotlight (Direct Embedding Clean Controls) -->
+    <!-- Featured Showreel Spotlight -->
     <div class="showreel-frame">
         <iframe src="https://www.youtube.com/embed/VqjPPrVSMwM?rel=0&modestbranding=1&controls=0" title="Official Showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
@@ -616,7 +645,6 @@
         function openVideoModal(youtubeId) {
             const modal = document.getElementById('videoModal');
             const iframe = document.getElementById('modalIframe');
-            /* Parámetros limpios + Autoplay al abrir + ocultar interfaz extra */
             iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&controls=1`;
             modal.classList.add('active');
         }
@@ -631,7 +659,7 @@
             const modal = document.getElementById('videoModal');
             const iframe = document.getElementById('modalIframe');
             modal.classList.remove('active');
-            iframe.src = ""; // Detener reproducción inmediatamente
+            iframe.src = "";
         }
 
         function copyEmailToClipboard() {
