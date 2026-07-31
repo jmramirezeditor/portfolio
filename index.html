@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>José Miguel Ramírez | Video Post-Production & Motion Studio</title>
-<!-- FAVICON -->
- <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
 
     <!-- PREVIENE LA INDEXACIÓN EN GOOGLE Y OTROS BUSCADORES -->
     <meta name="robots" content="noindex, nofollow">
@@ -33,6 +33,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -455,6 +459,27 @@
         .footer-left h3 { font-size: 1.6rem; line-height: 1; }
         .footer-left p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
 
+        .back-to-top {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .back-to-top:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            transform: translateY(-2px);
+        }
+
         /* AJUSTES RESPONSIVOS PARA MÓVIL */
         @media (max-width: 768px) {
             nav {
@@ -483,7 +508,7 @@
 <body>
 
     <!-- Header Navigation -->
-    <nav>
+    <nav id="top">
         <div class="logo bebas-bold">José Miguel Ramírez <span>/ Studio</span></div>
         
         <div class="header-actions">
@@ -710,6 +735,9 @@
             <h3 class="bebas-bold">José Miguel Ramírez</h3>
             <p>Professional Video Editor | BFA in New Media</p>
         </div>
+        <a href="#top" class="back-to-top" title="Back to top">
+            <i class="fa-solid fa-arrow-up"></i>
+        </a>
     </footer>
 
     <!-- Video Modal Screen -->
