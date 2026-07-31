@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>José Miguel Ramírez | Video Post-Production & Motion Studio</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --card-bg: #121215;
+            --accent-red: #e05345; /* Muted/Washed Red Accent */
+            --accent-hover: #c84336;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --border: #222226;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            /* Subtle Urban Texture: Fine Grain / Concrete Grid Pattern */
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 24px 24px, 12px 12px;
+            background-position: 0 0, 6px 6px;
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* Typography Styles */
+        h1, h2, h3, .bebas-bold {
+            font-family: 'Bebas Neue', cursive;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .bebas-light {
+            font-family: 'Bebas Neue', cursive;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        /* Navigation / Header Agency Style */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(9, 9, 11, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+        }
+
+        /* Header Social & Email Links */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-social {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 4px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .social-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            transition: fill 0.2s ease;
+        }
+
+        .social-icon:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            transform: translateY(-2px);
+        }
+
+        /* Copy Email Tooltip Effect */
+        .copy-email-btn {
+            position: relative;
+        }
+
+        .copy-email-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a20;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            pointer-events: none;
+            font-family: 'Inter', sans-serif;
+            text-transform: none;
+        }
+
+        .copy-email-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-btn {
+            background: var(--accent-red);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 0 15px rgba(224, 83, 69, 0.3);
+        }
+
+        /* Hero / Reel Spotlight */
+        .hero-studio {
+            text-align: center;
+            padding: 70px 20px 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 0.95;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .hero-title span {
+            color: var(--accent-red);
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Highlight Reel Container */
+        .showreel-frame {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            aspect-ratio: 16 / 9;
+        }
+
+        .showreel-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Portfolio Grid Section */
+        .portfolio-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            line-height: 1;
+        }
+
+        /* Portfolio Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .work-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .work-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-red);
+        }
+
+        .card-media {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .card-media iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .card-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .card-category {
+            color: var(--accent-red);
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .card-stats {
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            font-size: 1.1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-stats i {
+            color: var(--accent-red);
+        }
+
+        /* Tech Stack / Capabilities */
+        .capabilities {
+            background: rgba(13, 13, 16, 0.8);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 60px 20px;
+        }
+
+        .cap-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .cap-box h4 {
+            color: var(--accent-red);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .cap-box ul {
+            list-style: none;
+        }
+
+        .cap-box li {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cap-box li i {
+            color: var(--text-main);
+            font-size: 0.75rem;
+        }
+
+        /* Minimal Footer */
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-left h3 {
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .footer-left p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Integrated Social & Email Copy Button -->
+    <nav>
+        <div class="logo bebas-bold">José Miguel Ramírez <span>/ Studio</span></div>
+        
+        <div class="header-actions">
+            <div class="header-social">
+                <!-- LINKEDIN LINK -->
+                <a href="PLACEHOLDER_LINK_LINKEDIN" target="_blank" class="social-icon" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+
+                <!-- UPWORK SVG ICON -->
+                <a href="PLACEHOLDER_LINK_UPWORK" target="_blank" class="social-icon" title="Upwork">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path d="M493.9 359.6C443.6 359.6 410.4 320.7 401.1 305.7C413 210.4 447.9 180.3 493.9 180.3C539.4 180.3 574.8 216.7 574.8 270C574.8 323.3 539.4 359.7 493.9 359.7L493.9 359.6zM493.9 121.8C412 121.8 366.1 175.2 352.9 230.2C338 202.2 327 164.7 318.4 129.9L205.2 129.9L205.2 270.9C205.2 322 181.9 359.9 136.4 359.9C90.9 359.9 64.8 322.1 64.8 270.9L65.3 129.9L0 129.9L0 270.9C0 312 13.3 349.3 37.6 376C62.6 403.5 96.8 417.8 136.4 417.8C215.2 417.8 270.2 357.4 270.2 270.9L270.2 176.1C278.4 207.3 298 267.2 335.5 319.7L300.5 519.1L366.9 519.1L390 377.8C397.6 384.1 405.7 389.8 414.2 394.8C436.4 408.8 461.9 416.7 488.1 417.6C488.1 417.6 492.1 417.8 494.2 417.8C575.4 417.8 640.1 354.9 640.1 270C640.1 185.1 575.3 121.9 494.1 121.9L493.9 121.8z"/>
+                    </svg>
+                </a>
+
+                <!-- COPY EMAIL BUTTON -->
+                <button class="social-icon copy-email-btn" id="copyEmailBtn" data-tooltip="Copy email" onclick="copyEmailToClipboard()">
+                    <i class="fa-solid fa-envelope"></i>
+                </button>
+            </div>
+
+            <a href="mailto:jmramirezeditor@gmail.com" class="nav-btn"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
+        </div>
+    </nav>
+
+    <!-- Main Hero Headline -->
+    <section class="hero-studio">
+        <h1 class="hero-title bebas-bold">Video Editing & <span>Motion Graphics</span> Specialist</h1>
+        <p class="hero-tagline bebas-light">15+ years of audiovisual post-production experience for global brands, agencies, and top creators.</p>
+    </section>
+
+    <!-- Featured Showreel Spotlight -->
+    <div class="showreel-frame">
+        <iframe src="https://www.youtube.com/embed/VqjPPrVSMwM?rel=0&modestbranding=1" title="Official Showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <!-- Portfolio Grid Showcase -->
+    <section class="portfolio-section">
+        <div class="section-header">
+            <h2 class="bebas-bold">Selected Client Work</h2>
+        </div>
+
+        <div class="grid">
+
+            <!-- WORK ITEM 1: Outperform -->
+            <div class="work-card">
+                <div class="card-media">
+                    <iframe src="https://www.youtube.com/embed/serhzcffzx0?rel=0&modestbranding=1" title="Outperform YouTube Channel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="card-info">
+                    <div>
+                        <div class="card-category bebas-bold">YouTube Growth & Animation</div>
+                        <div class="card-title bebas-bold">"Outperform" YouTube Channel</div>
+                        <p class="card-desc">Edited and animated 75 B&W infographic & talking-head videos. Helped scale the channel from a few hundred subscribers to over 100K+ in 12 months.</p>
+                    </div>
+                    <div class="card-stats bebas-bold"><i class="fa-solid fa-chart-line"></i> Scaled to 100k+ Subscribers</div>
+                </div>
+            </div>
+
+            <!-- WORK ITEM 2: Bashcast -->
+            <div class="work-card">
+                <div class="card-media">
+                    <iframe src="https://www.youtube.com/embed/tj3ADI19_CI?rel=0&modestbranding=1" title="Bashcast Startup Explainer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="card-info">
+                    <div>
+                        <div class="card-category bebas-bold">Motion Graphics / Pitch</div>
+                        <div class="card-title bebas-bold">Bashcast Startup Explainer</div>
+                        <p class="card-desc">Complete motion graphics and video editing for a US tech startup's main pitch explainer, based on storyboards and custom assets.</p>
+                    </div>
+                    <div class="card-stats bebas-bold"><i class="fa-solid fa-bolt"></i> Custom 2D/Infographic Motion</div>
+                </div>
+            </div>
+
+            <!-- WORK ITEM 3: Ad Creative Media -->
+            <div class="work-card">
+                <div class="card-media">
+                    <iframe src="https://www.youtube.com/embed/YobgkEydis8?rel=0&modestbranding=1" title="Ad Creative Media Campaigns" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="card-info">
+                    <div>
+                        <div class="card-category bebas-bold">UGC & Performance Ads</div>
+                        <div class="card-title bebas-bold">Ad Creative Media Campaigns</div>
+                        <p class="card-desc">High-converting Video Sales Letters (VSLs), UGC mashups, and ad variations for global brands (Kineon Move+, Just Russel) in English & German.</p>
+                    </div>
+                    <div class="card-stats bebas-bold"><i class="fa-solid fa-bullseye"></i> Multilingual Commercial Content</div>
+                </div>
+            </div>
+
+            <!-- WORK ITEM 4: Azura -->
+            <div class="work-card">
+                <div class="card-media">
+                    <iframe src="https://www.youtube.com/embed/qQ9eKWfYpYQ?rel=0&modestbranding=1" title="Azura Engineering Course & Media" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="card-info">
+                    <div>
+                        <div class="card-category bebas-bold">Long-Form & Corporate</div>
+                        <div class="card-title bebas-bold">Azura Engineering Course & Media</div>
+                        <p class="card-desc">Produced educational video series and a complete 2-hour technical course on Biogas & RNG projects for Canadian firm Azura Associates.</p>
+                    </div>
+                    <div class="card-stats bebas-bold"><i class="fa-solid fa-graduation-cap"></i> 2-Hour Technical Course Production</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Post-Production Capabilities & Stack -->
+    <section class="capabilities">
+        <div class="cap-inner">
+            <div class="cap-box">
+                <h4 class="bebas-bold"><i class="fa-solid fa-wand-magic-sparkles"></i> Services</h4>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Advanced Video Editing</li>
+                    <li><i class="fa-solid fa-check"></i> 2D Motion Graphics & Animation</li>
+                    <li><i class="fa-solid fa-check"></i> VSL & UGC Ad Creative Editing</li>
+                    <li><i class="fa-solid fa-check"></i> Explainer Videos & Infographics</li>
+                </ul>
+            </div>
+            <div class="cap-box">
+                <h4 class="bebas-bold"><i class="fa-solid fa-layer-group"></i> Software Stack</h4>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Premiere Pro & After Effects</li>
+                    <li><i class="fa-solid fa-check"></i> DaVinci Resolve & CapCut</li>
+                    <li><i class="fa-solid fa-check"></i> Photoshop & Figma</li>
+                </ul>
+            </div>
+            <div class="cap-box">
+                <h4 class="bebas-bold"><i class="fa-solid fa-network-wired"></i> Workflow & Collab</h4>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Frame.io & Loom (Review)</li>
+                    <li><i class="fa-solid fa-check"></i> Slack, ClickUp & Notion</li>
+                    <li><i class="fa-solid fa-check"></i> Miro (Storyboarding)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-left">
+            <h3 class="bebas-bold">José Miguel Ramírez</h3>
+            <p>Professional Video Editor | BFA in New Media</p>
+        </div>
+    </footer>
+
+    <!-- Copy Email Script -->
+    <script>
+        function copyEmailToClipboard() {
+            const email = "jmramirezeditor@gmail.com";
+            const btn = document.getElementById('copyEmailBtn');
+
+            navigator.clipboard.writeText(email).then(() => {
+                btn.setAttribute('data-tooltip', 'Email copied!');
+                
+                setTimeout(() => {
+                    btn.setAttribute('data-tooltip', 'Copy email');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
